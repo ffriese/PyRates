@@ -1911,7 +1911,13 @@ class NumpyBackend(object):
                                 **kwargs)
             results = [outputs['y'].T[:, idx] for idx in output_indices]
             times = outputs['t']
-            self.vars['y'] = outputs['y'].T[:, -1]
+            self.vars['y'] = NumpyVar(vtype=self.vars['y'].vtype,
+                                      dtype=self.vars['y'].dtype,
+                                      shape=self.vars['y'].shape,
+                                      value=outputs['y'][:, -1],
+                                      name='y',
+                                      backend=self
+                                      )[0]  # the constructor returns the tuple (object, name), we only need the object
 
         else:
 
